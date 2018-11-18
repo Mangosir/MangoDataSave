@@ -8,8 +8,8 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.mango.datasave.cache.DiskLruCache;
-import com.mango.datasave.cache.MemoryLruCache;
+import com.mango.datasave.net.cache.DiskLruCache;
+import com.mango.datasave.net.cache.MemoryLruCache;
 import com.mango.datasave.tools.LocalThreadPools;
 
 import java.io.IOException;
@@ -27,12 +27,16 @@ public class AsyncImageLoader {
 
     private String TAG = AsyncImageLoader.class.getSimpleName();
 
-    private final int LOAD_IMAGE_BITMAP = 1;
+    private final int LOAD_IMAGE_BITMAP = 1000;
+    private final int LOAD_IMAGE_ERROR = 2000;
 
     private WeakReference<Context> mContext;
 
     private MemoryLruCache mMemoryCache;
     private DiskLruCache mDiskCache;
+
+    private int errorLoadId = -1;
+    private int loadingId = -1;
 
     private static AsyncImageLoader imageLoader;
     private AsyncImageLoader(Context context) {
@@ -48,7 +52,42 @@ public class AsyncImageLoader {
         return imageLoader;
     }
 
-    public boolean loadMemoryBitmap(ImageView view, String imgUrl){
+    public AsyncImageLoader setErrorLoadView(int resourceID){
+        errorLoadId = resourceID;
+        return this;
+    }
+
+    public AsyncImageLoader setLoadingView(int loadingId){
+        this.loadingId = loadingId;
+        return this;
+    }
+
+    public AsyncImageLoader setMemoryCache(int cacheSize){
+        mMemoryCache.setMemoryCache(cacheSize);
+        return this;
+    }
+
+    public AsyncImageLoader setFarthestTime(int days){
+        mDiskCache.setFarthestTime(days);
+        return this;
+    }
+
+    public AsyncImageLoader setCacheSize(long size){
+        mDiskCache.setCacheSize(size);
+        return this;
+    }
+
+    public AsyncImageLoader setCachePath(String pathName){
+        mDiskCache.setCachePath(pathName);
+        return this;
+    }
+
+    private boolean loadMemoryBitmap(ImageView view, String imgUrl){
+
+        if (loadingId != -1) {
+            view.setBackgroundResource(loadingId);
+        }
+
         Bitmap bitmap = mMemoryCache.getBitmap(imgUrl);
         if (bitmap != null) {
             view.setImageBitmap(bitmap);
@@ -57,7 +96,7 @@ public class AsyncImageLoader {
         return false;
     }
 
-    public boolean loadDiskBitmap(ImageView view, String imgUrl, int targetWidth, int targetHeight){
+    private boolean loadDiskBitmap(ImageView view, String imgUrl, int targetWidth, int targetHeight){
         Bitmap bitmap = mDiskCache.getBitmap(imgUrl, targetWidth,targetHeight);
         if (bitmap != null) {
             sendMessage(view,bitmap,imgUrl);
@@ -97,8 +136,20 @@ public class AsyncImageLoader {
 
                     loadDiskBitmap(view,imageUrl,targetWidth,targetHeight);
                 } catch (MalformedURLException e) {
+                    if (errorLoadId != -1) {
+                        Message message = mHandler.obtainMessage();
+                        message.what = LOAD_IMAGE_ERROR;
+                        message.obj = view;
+                        mHandler.sendMessage(message);
+                    }
                     e.printStackTrace();
                 } catch (IOException e) {
+                    if (errorLoadId != -1) {
+                        Message message = mHandler.obtainMessage();
+                        message.what = LOAD_IMAGE_ERROR;
+                        message.obj = view;
+                        mHandler.sendMessage(message);
+                    }
                     e.printStackTrace();
                 }
 
@@ -135,7 +186,15 @@ public class AsyncImageLoader {
                         view.setImageBitmap(bitmap);
                     }
                     break;
+                case LOAD_IMAGE_ERROR:
+                    ImageView v = (ImageView) msg.obj;
+                    v.setBackgroundResource(errorLoadId);
+                    break;
             }
         }
     };
+
+    public void cleanCache(String[] urls){
+        mMemoryCache.cleanCache(urls);
+    }
 }
