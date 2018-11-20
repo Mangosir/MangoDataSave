@@ -3,19 +3,35 @@ package com.mango.datasave.tools;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 
 /**
- * @Description TODO(屏幕工具类)
+ * @Description TODO(屏幕参数工具类)
  * @author cxy
  * @Date 2018/11/16 15:06
  */
 public class DisplayTools {
 
-    // 根据手机的分辨率将dp的单位转成px(像素)
-    public static int dp2px(Context context, float dp) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                context.getResources().getDisplayMetrics()) + 0.5f);
+    /** dip转px */
+    public static int dip2px(Context context,int dp)
+    {
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (dp*density+0.5);
+    }
+
+    /** px转换dip */
+    public static int px2dip(Context context,int px) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (px / scale + 0.5f);
+    }
+    /** px转换sp */
+    public static int px2sp(Context context,int pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+    /** sp转换px */
+    public static int sp2px(Context context,int spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
     //获取屏幕密度density

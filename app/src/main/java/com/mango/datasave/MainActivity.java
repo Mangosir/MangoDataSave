@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mango.datasave.sql.SQLiteDBHelper;
@@ -24,14 +25,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView get;
     TextView del;
     TextView update;
+    ImageView view;
 
     private UserDao userDao;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        view = (ImageView) findViewById(R.id.view);
         add = (TextView) findViewById(R.id.add);
         get = (TextView) findViewById(R.id.get);
         del = (TextView) findViewById(R.id.del);
@@ -82,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.update:
-
-                Bitmap value = BitmapFactory.decodeResource(getResources(), R.mipmap.app_logo);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                Bitmap value = BitmapFactory.decodeResource(getResources(), R.mipmap.img_nav_01,options);
+                view.setImageBitmap(value);
                 int height = value.getHeight();
                 int width = value.getWidth();
                 Bitmap.Config config = value.getConfig();
@@ -92,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 float density = DisplayTools.getDensity(this);
                 int densityDpi = DisplayTools.getDensityDpi(this);
                 Log.e(TAG,"height="+height+",width="+width+",name="+name+",size="+size+",density="+density+",densityDpi="+densityDpi);
+                Log.e(TAG,"view Width="+view.getWidth()+",Height="+view.getHeight());
                 break;
             case R.id.del:
 

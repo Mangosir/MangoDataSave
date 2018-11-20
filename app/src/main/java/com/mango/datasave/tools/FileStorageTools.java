@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
+import android.text.TextUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -290,6 +291,28 @@ public class FileStorageTools {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + path;
     }
 
+    /**
+     *
+     * @param path
+     * @param name
+     * @return
+     */
+    public File getTempFile(String path,String name) {
+
+        if (TextUtils.isEmpty(path) || TextUtils.isEmpty(name)) throw new NullPointerException("File path or File Name should not be null !");
+
+        File temp = null;
+        if (path.contains("/")) {
+            File parent = new File(path);
+            if (!parent.exists()) {
+                parent.mkdirs();
+            }
+            temp = new File(parent,name);
+        } else {
+            temp = new File(path+File.separator+name);
+        }
+        return temp;
+    }
 
     /**
      * 创建文件
@@ -509,7 +532,7 @@ public class FileStorageTools {
      * @param oldFile 原文件目录
      * @param newFile 新文件
      */
-    public void copyFile(String oldFile, File newFile){
+    public void fileCopy(String oldFile, File newFile){
 
         File oldF = new File(oldFile);
         if(!oldF.exists()) return;
@@ -535,9 +558,63 @@ public class FileStorageTools {
         }
     }
 
+    /**
+     * fileCopy(Environment.getExternalStorageDirectory()+"/app1/app2/msg.txt",
+     Environment.getExternalStorageDirectory()+"/app3","msg2.txt");
+     * 复制文件
+     * @param oldPath
+     * @param newPath
+     * @param newName
+     */
+    public void fileCopy(final String oldPath,final String newPath,final String newName){
 
-    public void copyDirectory(String oldPath, String newPath){
+        if (TextUtils.isEmpty(newPath) || TextUtils.isEmpty(newName)) throw new NullPointerException("File path or File Name should not be null !");
 
+        File temp = getTempFile(newPath,newName);
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+
+        try {
+            bis = new BufferedInputStream(new FileInputStream(new File(oldPath)));
+            bos = new BufferedOutputStream(new FileOutputStream(temp));
+            byte[] buff = new byte[8*1024];
+            int len ;
+            while ((len = bis.read(buff)) != -1){
+                bos.write(buff,0,len);
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }finally {
+            closeInputStream(bis);
+            closeOutputStream(bos);
+        }
+
+    }
+
+
+    /**
+     * folderCopy(Environment.getExternalStorageDirectory()+"/app1",
+     Environment.getExternalStorageDirectory()+"/app4/app5");
+     * 把整个文件夹复制到另一个文件夹下
+     * @param oldPath
+     * @param newPath
+     */
+    public void folderCopy(String oldPath, String newPath){
+
+        if (TextUtils.isEmpty(newPath)) throw new NullPointerException("File path should not be null !");
+
+        File oldFile = new File(oldPath);
+        String oldFileName = oldPath.substring(oldPath.lastIndexOf("/")+1);
+
+        File[] fileList = oldFile.listFiles();
+        for (int i=0; i<fileList.length; i++) {
+            File fileChild = fileList[i];
+            if (fileChild.isFile()) {
+                fileCopy(fileChild.getAbsolutePath(),newPath+"/"+oldFileName,fileChild.getName());
+            } else {
+                folderCopy(fileChild.getAbsolutePath(),newPath+"/"+oldFileName);
+            }
+        }
     }
 
     /**====================================资源文件操作=================================================**/

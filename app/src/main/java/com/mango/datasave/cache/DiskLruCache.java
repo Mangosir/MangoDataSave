@@ -129,7 +129,7 @@ public class DiskLruCache {
             File f = (File) objects[1];
             map.put(f.getAbsolutePath(),f.lastModified());
         }
-        return BitmapTools.getByteBitmap(data,targetWidth,targetHeight);
+        return BitmapTools.decodeByteBitmap(data,targetWidth,targetHeight);
     }
 
 

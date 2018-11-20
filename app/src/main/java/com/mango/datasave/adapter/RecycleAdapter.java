@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.mango.datasave.R;
-import com.mango.datasave.net.AsyncImageLoader;
+import com.mango.datasave.net.EasyImageLoader;
 import com.mango.datasave.tools.DisplayTools;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -55,7 +55,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         // 预设一个图片
         holder.view.setImageResource(R.mipmap.ic_launcher);
         if (!TextUtils.isEmpty(imgUrl) && isShouldBeLoaded) {
-            AsyncImageLoader.getInstance(mContext).loadImage(holder.view, imgUrl, DisplayTools.dp2px(mContext,80), DisplayTools.dp2px(mContext,80));
+            EasyImageLoader.getInstance(mContext).loadImage(holder.view, imgUrl, DisplayTools.dip2px(mContext,80), DisplayTools.dip2px(mContext,80));
         }
     }
 

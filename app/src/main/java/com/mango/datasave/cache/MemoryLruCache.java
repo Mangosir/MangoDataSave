@@ -22,13 +22,14 @@ public class MemoryLruCache {
 
     private LruCache<String,Bitmap> mMemoryCache;
 
+    private int memoryCache;
+
     public MemoryLruCache(){
         //虚拟机能获得的最大内存
         long maxMemory = Runtime.getRuntime().maxMemory();
         //内存缓存所使用的内存
-        int cache = (int) (maxMemory / 8);
-        Log.e(TAG,"MemoryLruCache="+cache);
-        mMemoryCache = new LruCache<String,Bitmap>(cache){
+        memoryCache = (int) (maxMemory / 8);
+        mMemoryCache = new LruCache<String,Bitmap>(memoryCache){
 
             //需要重写两个方法
 
@@ -61,6 +62,9 @@ public class MemoryLruCache {
 
     }
 
+    public void setMemoryCache(int cacheSize){
+        memoryCache = cacheSize;
+    }
 
     /**
      * 从内存中取出图片
@@ -128,9 +132,6 @@ public class MemoryLruCache {
             e.printStackTrace();
         }
 
-        System.gc();
     }
-
-
 
 }

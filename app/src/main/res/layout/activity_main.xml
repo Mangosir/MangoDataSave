@@ -51,4 +51,13 @@
         android:textColor="@android:color/white"
         android:background="@color/colorAccent" />
 
+    <ImageView
+        android:id="@+id/view"
+        android:layout_below="@+id/get"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/black"/>
+
 </RelativeLayout>

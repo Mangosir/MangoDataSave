@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.mango.datasave.R;
-import com.mango.datasave.net.AsyncImageLoader;
+import com.mango.datasave.net.EasyImageLoader;
 import com.mango.datasave.tools.DisplayTools;
 
 /**
@@ -63,7 +63,7 @@ public class PictureAdapter extends BaseAdapter {
         holder.img.setImageResource(R.mipmap.ic_launcher);
 
         if (!TextUtils.isEmpty(imgUrl)) {
-            AsyncImageLoader.getInstance(context).loadImage(holder.img, imgUrl, DisplayTools.dp2px(context,40),DisplayTools.dp2px(context,40));
+            EasyImageLoader.getInstance(context).loadImage(holder.img, imgUrl, DisplayTools.dip2px(context,40),DisplayTools.dip2px(context,40));
         }
 
         return convertView;
