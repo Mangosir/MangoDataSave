@@ -8,8 +8,8 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.mango.datasave.net.cache.DiskLruCache;
-import com.mango.datasave.net.cache.MemoryLruCache;
+import com.mango.datasave.cache.DiskLruCache;
+import com.mango.datasave.cache.MemoryLruCache;
 import com.mango.datasave.tools.LocalThreadPools;
 
 import java.io.IOException;
@@ -23,9 +23,9 @@ import java.net.URL;
  * @author cxy
  * @Date 2018/11/14 11:18
  */
-public class AsyncImageLoader {
+public class EasyImageLoader {
 
-    private String TAG = AsyncImageLoader.class.getSimpleName();
+    private String TAG = EasyImageLoader.class.getSimpleName();
 
     private final int LOAD_IMAGE_BITMAP = 1000;
     private final int LOAD_IMAGE_ERROR = 2000;
@@ -38,46 +38,46 @@ public class AsyncImageLoader {
     private int errorLoadId = -1;
     private int loadingId = -1;
 
-    private static AsyncImageLoader imageLoader;
-    private AsyncImageLoader(Context context) {
+    private static EasyImageLoader imageLoader;
+    private EasyImageLoader(Context context) {
         this.mContext = new WeakReference<>(context);
         mMemoryCache = new MemoryLruCache();
         mDiskCache = new DiskLruCache(context);
     }
 
-    public static AsyncImageLoader getInstance(Context context){
+    public static EasyImageLoader getInstance(Context context){
         if (imageLoader == null) {
-            imageLoader = new AsyncImageLoader(context);
+            imageLoader = new EasyImageLoader(context);
         }
         return imageLoader;
     }
 
-    public AsyncImageLoader setErrorLoadView(int resourceID){
+    public EasyImageLoader setErrorLoadView(int resourceID){
         errorLoadId = resourceID;
         return this;
     }
 
-    public AsyncImageLoader setLoadingView(int loadingId){
+    public EasyImageLoader setLoadingView(int loadingId){
         this.loadingId = loadingId;
         return this;
     }
 
-    public AsyncImageLoader setMemoryCache(int cacheSize){
+    public EasyImageLoader setMemoryCache(int cacheSize){
         mMemoryCache.setMemoryCache(cacheSize);
         return this;
     }
 
-    public AsyncImageLoader setFarthestTime(int days){
+    public EasyImageLoader setFarthestTime(int days){
         mDiskCache.setFarthestTime(days);
         return this;
     }
 
-    public AsyncImageLoader setCacheSize(long size){
+    public EasyImageLoader setCacheSize(long size){
         mDiskCache.setCacheSize(size);
         return this;
     }
 
-    public AsyncImageLoader setCachePath(String pathName){
+    public EasyImageLoader setCachePath(String pathName){
         mDiskCache.setCachePath(pathName);
         return this;
     }
