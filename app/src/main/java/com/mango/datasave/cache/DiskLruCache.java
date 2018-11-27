@@ -139,7 +139,7 @@ public class DiskLruCache {
      *             如果是null，默认为cachePath.getAbsolutePath()
      */
     public void cleanAllCache(final String path){
-        LocalThreadPools.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+        LocalThreadPools.getInstance().execute(new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(path)) {
