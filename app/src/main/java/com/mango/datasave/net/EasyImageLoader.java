@@ -52,31 +52,61 @@ public class EasyImageLoader {
         return imageLoader;
     }
 
+    /**
+     * 设置加载失败的显示图
+     * @param resourceID
+     * @return
+     */
     public EasyImageLoader setErrorLoadView(int resourceID){
         errorLoadId = resourceID;
         return this;
     }
 
+    /**
+     * 设置正在加载中显示图
+     * @param loadingId
+     * @return
+     */
     public EasyImageLoader setLoadingView(int loadingId){
         this.loadingId = loadingId;
         return this;
     }
 
+    /**
+     * 设置内存缓存大小
+     * @param cacheSize
+     * @return
+     */
     public EasyImageLoader setMemoryCache(int cacheSize){
         mMemoryCache.setMemoryCache(cacheSize);
         return this;
     }
 
+    /**
+     * 设置文件缓存保存最长时间
+     * @param days
+     * @return
+     */
     public EasyImageLoader setFarthestTime(int days){
         mDiskCache.setFarthestTime(days);
         return this;
     }
 
+    /**
+     * 设置文件缓存大小
+     * @param size
+     * @return
+     */
     public EasyImageLoader setCacheSize(long size){
         mDiskCache.setCacheSize(size);
         return this;
     }
 
+    /**
+     * 设置文件缓存路径
+     * @param pathName
+     * @return
+     */
     public EasyImageLoader setCachePath(String pathName){
         mDiskCache.setCachePath(pathName);
         return this;
@@ -120,7 +150,7 @@ public class EasyImageLoader {
             return;
         }
 
-        LocalThreadPools.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+        LocalThreadPools.getInstance().execute(new Runnable() {
             @Override
             public void run() {
                 //从磁盘读取
