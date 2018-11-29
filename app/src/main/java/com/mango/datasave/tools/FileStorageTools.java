@@ -878,7 +878,7 @@ public class FileStorageTools {
      * MEDIA_UNMOUNTABLE：不可装载状态（外部存储存在但是无法被装载，一般是磁盘的文件系统损坏造成的）
      * @return
      */
-    public boolean isSdCardMount(){
+    public static boolean isSdCardMount(){
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 

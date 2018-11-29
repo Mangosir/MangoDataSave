@@ -1,8 +1,7 @@
-package com.mango.datasave;
+package com.mango.datasave.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.mango.datasave.tools.TimeTools;
 
@@ -21,7 +20,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Log.e("MyApplication","onCreate");
+        ExceptionHandler handler = new ExceptionHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 }
