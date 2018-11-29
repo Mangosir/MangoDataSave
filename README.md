@@ -17,3 +17,5 @@ App启动时间统计 https://blog.csdn.net/qq_30993595/article/details/84379000
 线程池解析 https://blog.csdn.net/qq_30993595/article/details/84324681
 
 Bitmap高效加载 https://blog.csdn.net/qq_30993595/article/details/84202510
+
+捕获APP崩溃异常信息 https://blog.csdn.net/qq_30993595/article/details/84589661
