@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.mango.clib.cache.DiskLruCache;
@@ -115,11 +114,6 @@ public class EasyImageLoader {
     }
 
     private boolean loadMemoryBitmap(ImageView view, String imgUrl){
-
-        if (loadingId != -1) {
-            view.setBackgroundResource(loadingId);
-        }
-
         Bitmap bitmap = mMemoryCache.getBitmap(imgUrl);
         if (bitmap != null) {
             view.setImageBitmap(bitmap);
@@ -147,21 +141,17 @@ public class EasyImageLoader {
             return;
         }
 
-        //从磁盘读取
-        if (loadDiskBitmap(view,imgUrl,targetWidth,targetHeight)) {
-            return ;
-        }
-
         Bitmap bitmap = BitmapTools.decodeResourceBitmap(mContext.get().getResources(),resourceId,targetWidth,targetHeight);
         if (bitmap != null) {
-            Log.i(TAG,"resourceId="+resourceId);
             view.setImageBitmap(bitmap);
             mMemoryCache.putBitmap(imgUrl, bitmap);
         } else {
-            Message message = mHandler.obtainMessage();
-            message.what = LOAD_IMAGE_ERROR;
-            message.obj = view;
-            mHandler.sendMessage(message);
+            if (errorLoadId == -1) {
+//                view.setImageResource(errorLoadId);
+            } else {
+                view.setImageResource(errorLoadId);
+            }
+
         }
     }
 
@@ -249,6 +239,7 @@ public class EasyImageLoader {
                     ImageView v = (ImageView) msg.obj;
                     v.setBackgroundResource(errorLoadId);
                     break;
+                default:
             }
         }
     };
