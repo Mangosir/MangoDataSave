@@ -3,7 +3,8 @@ package com.mango.datasave.application;
 import android.app.Application;
 import android.content.Context;
 
-import com.mango.datasave.tools.TimeTools;
+import com.mango.clib.tools.TimeTools;
+
 
 /**
  * Created by lenovo on 2018/11/7.

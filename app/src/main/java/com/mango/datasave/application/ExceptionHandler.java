@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Process;
 
-import com.mango.datasave.tools.DevicesTools;
-import com.mango.datasave.tools.FileStorageTools;
-import com.mango.datasave.tools.LocalThreadPools;
+import com.mango.clib.tools.DevicesTools;
+import com.mango.clib.tools.FileStorageTools;
+import com.mango.clib.tools.LocalThreadPools;
 
 import java.io.File;
 import java.io.PrintWriter;

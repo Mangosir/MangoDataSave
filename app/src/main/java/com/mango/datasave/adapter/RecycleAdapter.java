@@ -2,15 +2,14 @@ package com.mango.datasave.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.mango.clib.net.EasyImageLoader;
+import com.mango.clib.tools.DisplayTools;
 import com.mango.datasave.R;
-import com.mango.datasave.net.EasyImageLoader;
-import com.mango.datasave.tools.DisplayTools;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
@@ -23,7 +22,7 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
 
     private Context mContext;
-    private String[] list;
+    private int[] list;
 
     private boolean isShouldBeLoaded = true;
 
@@ -31,7 +30,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         this.mContext = mContext;
     }
 
-    public void setList(String[] list) {
+    public void setList(int[] list) {
         this.list = list;
     }
 
@@ -49,13 +48,15 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        final String imgUrl = list[position];
+        final int imgUrl = list[position];
         // 给 ImageView 设置一个 tag
         holder.view.setTag(imgUrl);
         // 预设一个图片
         holder.view.setImageResource(R.mipmap.ic_launcher);
-        if (!TextUtils.isEmpty(imgUrl) && isShouldBeLoaded) {
-            EasyImageLoader.getInstance(mContext).loadImage(holder.view, imgUrl, DisplayTools.dip2px(mContext,80), DisplayTools.dip2px(mContext,80));
+        if (isShouldBeLoaded) {
+            EasyImageLoader.getInstance(mContext).loadResourceImage(holder.view, imgUrl,
+                    DisplayTools.dip2px(mContext,80),
+                    DisplayTools.dip2px(mContext,80));
         }
     }
 

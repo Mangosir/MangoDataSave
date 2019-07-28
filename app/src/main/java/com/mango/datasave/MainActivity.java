@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mango.clib.tools.DisplayTools;
+import com.mango.clib.tools.FileStorageTools;
 import com.mango.datasave.sql.SQLiteDBHelper;
 import com.mango.datasave.sql.UserDao;
-import com.mango.datasave.tools.DisplayTools;
-import com.mango.datasave.tools.FileStorageTools;
 
 import java.io.File;
 
