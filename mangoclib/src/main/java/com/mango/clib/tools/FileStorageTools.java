@@ -343,7 +343,11 @@ public class FileStorageTools {
         FileOutputStream fos = null;
 
         File file = makeFile(parent,fileName);
+
         try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             fos = new FileOutputStream(file,append);
             fos.write(content.getBytes());
             fos.flush();

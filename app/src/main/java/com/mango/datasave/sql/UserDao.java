@@ -21,7 +21,7 @@ public class UserDao extends BaseDao{
     public void addUser(User user){
         SQLiteDatabase database = mHelper.getWritableDatabase();
         String sql = "insert into " + SQLiteDBHelper.TABLE_USER + "(uid,name,sex,role) values(?,?,?,?)";
-        database.execSQL(sql,new String[]{user.getUid(),user.getName(),user.getSex(),user.getRole()});
+        database.execSQL(sql,new String[]{user.getUid()+"",user.getName(),user.getSex()});
         database.close();
     }
 
@@ -36,7 +36,6 @@ public class UserDao extends BaseDao{
         values.put("uid",user.getUid());
         values.put("name",user.getName());
         values.put("sex",user.getSex());
-        values.put("role",user.getRole());
         long rowNum = database.insert(SQLiteDBHelper.TABLE_USER,null,values);
         database.close();
         return rowNum;
@@ -114,10 +113,9 @@ public class UserDao extends BaseDao{
         String sql = "select * from "+ SQLiteDBHelper.TABLE_USER + " where uid = ?";
         Cursor cursor = database.rawQuery(sql,new String[]{uid});
         while (cursor.moveToNext()) {
-            user.setUid(cursor.getInt(cursor.getColumnIndex("uid"))+"");
+//            user.setUid(cursor.getInt(cursor.getColumnIndex("uid"))+"");
             user.setName(cursor.getString(cursor.getColumnIndex("name")));
             user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-            user.setRole(cursor.getString(cursor.getColumnIndex("role")));
         }
         cursor.close();
         database.close();

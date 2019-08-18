@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 28
@@ -16,16 +17,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+}
+
+greendao {
+    schemaVersion 1 //指定数据库schema版本号，迁移等操作会用到
+    daoPackage 'com.mango.datasave.dao'//通过gradle插件生成的数据库相关文件的包名
+    targetGenDir 'src/main/java'//生成数据库文件的目录,比如DaoMaster、DaoSession、Dao目录,这里路径用.不要用/
+//    generateTests false //设置true将自动生成单元测试。
+//    targetGenDirTests 'src/main/java' //设置存储生成的单元测试的基本目录。默认为 src / androidTest / java。
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'com.android.support:appcompat-v7:28.+'
+    implementation 'com.android.support:appcompat-v7:+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
     implementation project(':mangoclib')
 }
+

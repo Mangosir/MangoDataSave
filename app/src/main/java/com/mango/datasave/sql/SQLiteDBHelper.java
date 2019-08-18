@@ -14,7 +14,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     private String TAG = SQLiteDBHelper.class.getSimpleName();
 
-    //类还没有实例化，只能是static修饰才能用来做参数
     public static final String DATABASE_NAME = "mango";
     public static final String TABLE_USER = "user";
     private static final int DATABASE_VERSION = 1;
@@ -48,7 +47,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.e(TAG,"onCreate");
         String dataBaseSql = "create table if not exists " + TABLE_USER +
-                "(uid integer primary key autoincrement,name varchar(20),sex varchar,role varchar)";
+                "(uid integer primary key autoincrement not null,name varchar(20),sex varchar,role varchar)";
         db.execSQL(dataBaseSql);
     }
 

@@ -3,6 +3,7 @@ package com.mango.datasave.application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Process;
+import android.util.Log;
 
 import com.mango.clib.tools.DevicesTools;
 import com.mango.clib.tools.FileStorageTools;
@@ -163,6 +164,7 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         String time = formatter.format(new Date());
         //文件名还可以加上用户名等信息
         String fileName = "crash-" + time + ".txt";
+        Log.i("ExceptionHandler",""+sbInfo.toString());
         FileStorageTools.getInstance(mContext).putStringToExternalStorage(sbInfo.toString(),parentFile,fileName,false);
     }
 
