@@ -10,6 +10,8 @@ SharedPreferences https://blog.csdn.net/qq_30993595/article/details/83501528
 
 SQLite https://blog.csdn.net/qq_30993595/article/details/83743355
 
+封装Sqlite框架 https://blog.csdn.net/qq_30993595/article/details/99639106
+
 三级缓存 https://blog.csdn.net/qq_30993595/article/details/84025632
 
 App启动时间统计 https://blog.csdn.net/qq_30993595/article/details/84379000
